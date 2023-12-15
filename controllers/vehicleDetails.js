@@ -2,8 +2,6 @@ const { getClient } = require('../db/connect')
 
 var client
 
-
-
 const addVehicle = async (req, res) => {
   const {
     s_entity_identity,
@@ -12,10 +10,10 @@ const addVehicle = async (req, res) => {
     s_asset_name,
     imei_number,
     s_asset_type,
+    s_fuel_type,
     i_tare_weight,
     i_gross_weight,
     s_asset_model,
-    vahan_update_date,
     capacity_name,
     s_vendor_name,
     registration_date,
@@ -61,10 +59,10 @@ const addVehicle = async (req, res) => {
       s_asset_name,
       imei_number,
       s_asset_type,
+      s_fuel_type,
       i_tare_weight,
       i_gross_weight,
       s_asset_model,
-      vahan_update_date,
       capacity_name,
       s_vendor_name,
       registration_date,
@@ -105,10 +103,10 @@ const addVehicle = async (req, res) => {
                     s_asset_name, 
                     imei_number, 
                     s_asset_type, 
+                    s_fuel_type,
                     i_tare_weight, 
                     i_gross_weight, 
                     s_asset_model, 
-                    vahan_update_date, 
                     capacity_name, 
                     s_vendor_name, 
                     registration_date, 
@@ -139,7 +137,7 @@ const addVehicle = async (req, res) => {
                     vehicle_active_status,
                     i_seating_capacity
                 )
-                VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22, $23, $24, $25, $26, $27, $28, @29, $30, $31, $32, $33, $34, $35, $36, $37, $38, $39)
+                VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22, $23, $24, $25, $26, $27, $28, $29, $30, $31, $32, $33, $34, $35, $36, $37, $38)
                 RETURNING *;
             `,
       values: [
@@ -149,10 +147,10 @@ const addVehicle = async (req, res) => {
         dataToInsert.s_asset_name,
         dataToInsert.imei_number,
         dataToInsert.s_asset_type,
+        dataToInsert.s_fuel_type,
         dataToInsert.i_tare_weight,
         dataToInsert.i_gross_weight,
         dataToInsert.s_asset_model,
-        dataToInsert.vahan_update_date,
         dataToInsert.capacity_name,
         dataToInsert.s_vendor_name,
         dataToInsert.registration_date,
