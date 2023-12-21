@@ -59,7 +59,7 @@ const getFuelDetails = async(req,res) =>{
             try {
                 const result = await client.query(query);
                 res.status(200).json({
-                    message: 'Data Fetched successfully',
+                    message: 'Fuel Type Data Fetched successfully',
                     data: result.rows
                 });
             } finally {
@@ -70,7 +70,53 @@ const getFuelDetails = async(req,res) =>{
     }   
 }   
 
+const getAssetTypeDetails = async(req,res) =>{
+    try{
+        const query = {
+            text: 'SELECT asset_type FROM asset_info;',
+            };
+            
+            client =await getClient(); 
+
+            try {
+                const result = await client.query(query);
+                res.status(200).json({
+                    message: 'Asset Type Data Fetched successfully',
+                    data: result.rows
+                });
+            } finally {
+                await client.end();
+            }
+    }catch(error){
+        res.status(400).send({ message: error.message });
+    }   
+}
+
+const getAssetCapacityDetails = async(req,res) =>{
+    try{
+        const query = {
+            text: 'SELECT asset_capacity FROM asset_info;',
+            };
+            
+            client =await getClient(); 
+
+            try {
+                const result = await client.query(query);
+                res.status(200).json({
+                    message: 'Asset Capacity Data Fetched successfully',
+                    data: result.rows
+                });
+            } finally {
+                await client.end();
+            }
+    }catch(error){
+        res.status(400).send({ message: error.message });
+    }   
+}
+
 module.exports = {
     setAssetInfo,
-    getFuelDetails
+    getFuelDetails,
+    getAssetTypeDetails,
+    getAssetCapacityDetails
 }
