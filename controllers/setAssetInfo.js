@@ -51,7 +51,7 @@ const setAssetInfo = async (req, res) => {
 const getFuelDetails = async(req,res) =>{
     try{
         const query = {
-            text: 'SELECT * FROM asset_info;',
+            text: 'SELECT fuel_type FROM asset_info;',
             };
             
             client =await getClient(); 
