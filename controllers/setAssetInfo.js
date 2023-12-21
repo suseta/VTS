@@ -48,6 +48,29 @@ const setAssetInfo = async (req, res) => {
   }
 }
 
+const getFuelDetails = async(req,res) =>{
+    try{
+        const query = {
+            text: 'SELECT * FROM asset_info;',
+            };
+            
+            client =await getClient(); 
+
+            try {
+                const result = await client.query(query);
+                res.status(200).json({
+                    message: 'Data Fetched successfully',
+                    data: result.rows
+                });
+            } finally {
+                await client.end();
+            }
+    }catch(error){
+        res.status(400).send({ message: error.message });
+    }   
+}   
+
 module.exports = {
-    setAssetInfo
+    setAssetInfo,
+    getFuelDetails
 }
