@@ -1,8 +1,9 @@
 const express = require('express')
 const router = express.Router()
 
-const { index, addDriver,setAssetInfo } = require('../controllers/driverDetails')
+const { index, addDriver } = require('../controllers/driverDetails')
 const {addVehicle } = require('../controllers/vehicleDetails')
+const {setAssetInfo} = require('../controllers/setAssetInfo')
 router.route('/').get(index)
 
 router.route('/addVehicle').post(addVehicle)
