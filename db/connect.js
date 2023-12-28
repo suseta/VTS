@@ -2,7 +2,7 @@
 const { Client } = require('pg');
 
 const connect = async () => {
-    const connectionString = `postgresql://postgres:root@localhost:5432/vtsdb`;
+    const connectionString = `postgresql://postgres:root@localhost:5432/vtsdatabase`;
     const client = new Client({
         connectionString,
     });
