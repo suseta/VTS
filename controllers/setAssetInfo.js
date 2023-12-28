@@ -4,32 +4,32 @@ var client
 
 const setAssetInfo = async (req, res) => {
   const {
-    fuel_type,
-    asset_type,
-    asset_capacity  
+    s_fuel_typ,
+    s_asset_typ,
+    s_asset_cap  
   } = req.body
 
   try {
     const dataToInsert = {
-        fuel_type,
-        asset_type,
-        asset_capacity  
+        s_fuel_typ,
+        s_asset_typ,
+        s_asset_cap  
     }
 
     const query = {
       text: `
                 INSERT INTO asset_info (
-                    fuel_type,
-                    asset_type,
-                    asset_capacity     
+                    s_fuel_typ,
+                    s_asset_typ,
+                    s_asset_cap     
                 )
                 VALUES ($1, $2, $3)
                 RETURNING *;
             `,
       values: [
-        dataToInsert.fuel_type,
-        dataToInsert.asset_type,
-        dataToInsert.asset_capacity
+        dataToInsert.s_fuel_typ,
+        dataToInsert.s_asset_typ,
+        dataToInsert.s_asset_cap
       ]
     }
     client = await getClient()
@@ -51,7 +51,7 @@ const setAssetInfo = async (req, res) => {
 const getFuelDetails = async(req,res) =>{
     try{
         const query = {
-            text: 'SELECT fuel_type FROM asset_info;',
+            text: 'SELECT s_fuel_typ FROM asset_info;',
             };
             
             client =await getClient(); 
@@ -73,7 +73,7 @@ const getFuelDetails = async(req,res) =>{
 const getAssetTypeDetails = async(req,res) =>{
     try{
         const query = {
-            text: 'SELECT asset_type FROM asset_info;',
+            text: 'SELECT s_asset_typ FROM asset_info;',
             };
             
             client =await getClient(); 
@@ -95,7 +95,7 @@ const getAssetTypeDetails = async(req,res) =>{
 const getAssetCapacityDetails = async(req,res) =>{
     try{
         const query = {
-            text: 'SELECT asset_capacity FROM asset_info;',
+            text: 'SELECT s_asset_cap FROM asset_info;',
             };
             
             client =await getClient(); 
