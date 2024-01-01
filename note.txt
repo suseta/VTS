@@ -1,0 +1,20 @@
+heirarchy -
+
+    Ho(EntityCustomer) -> Location  -> Transporter() -> User -> Product (added by Ho/Transporter)
+                                                     -> vehicle
+
+login by HO - all
+
+login by Transporter
+
+device added by Admim
+
+asset vehicle - added by Transporter 
+
+driver - added by Transporter
+  
+           
+                  
+
+                                
+                  
