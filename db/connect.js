@@ -6,7 +6,7 @@ const UbuntuIP = process.env.UbuntuIP;
 const password = process.env.Password;
 
 const connect = async () => {
-    const connectionString = `postgresql://postgres:password@UbuntuIP:5432/navXdb`;
+    const connectionString = `postgresql://postgres:${password}@${UbuntuIP}:5432/navxdb`;
     const client = new Client({
         connectionString,
     });
