@@ -177,6 +177,24 @@ const getAllEntityNameList = async(req,res) =>{
     }   
 } 
 
+const getAllCountries = async(req, res) =>{
+    try{
+        countryDetails = Country.getAllCountries()
+        noOfcountry = countryDetails.length;
+        countryISO = []
+        for(i=0; i < noOfcountry; i++){
+            countryISO.push(countryDetails[i].name,countryDetails[i].isoCode);
+        }
+        res.status(200).json({
+            message: 'Country ISO Fetched successfully',
+            countryISO: countryISO
+        });
+    }
+    catch(error){
+        res.status(400).send({ message: error.message });
+    }       
+}
+
 const getAllState = async(req,res) =>{
     const {
         s_entity_countryName
@@ -203,8 +221,9 @@ const getAllCity = async(req,res) =>{
         s_entity_countryName,
         s_entity_state
     } = req.query
+    isoCode = await getISObyStateName(s_entity_countryName,s_entity_state);
     try{
-        cityDetails = City.getCitiesOfState(s_entity_countryName,s_entity_state);
+        cityDetails = City.getCitiesOfState(s_entity_countryName,isoCode);
         noOfCity = cityDetails.length;
         cityName = []
         for(i=0; i < noOfCity; i++){
@@ -220,10 +239,28 @@ const getAllCity = async(req,res) =>{
     }    
 }
 
+const getISObyStateName = async(s_entity_countryName,s_entity_state) => {
+    var stateDetails = State.getStatesOfCountry(s_entity_countryName)
+    var noOfState = stateDetails.length;
+    var stateName = []
+    var isoCode;
+    for(i=0; i < noOfState; i++){
+        stateName.push(stateDetails[i].name);
+    }
+    for(i = 0; i < noOfState; i++){
+        if(s_entity_state == stateName[i]){
+            isoCode = stateDetails[i].isoCode;
+            break;
+        }
+    }   
+    return isoCode;  
+}
+
 
 module.exports = {
     setEntityInfo,
     getAllEntityNameList,
+    getAllCountries,
     getAllState,
     getAllCity,
 }
