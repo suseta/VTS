@@ -1,4 +1,7 @@
 const { getClient } = require('../db/connect')
+let Country = require('country-state-city').Country;
+let State = require('country-state-city').State;
+let City = require('country-state-city').City;
 
 var client
 
@@ -170,8 +173,35 @@ const getAllEntityNameList = async(req,res) =>{
     }   
 } 
 
+const getAllStateAndCity = async(req,res) =>{
+    try{
+        stateDetails = State.getStatesOfCountry('IN')
+        noOfState = stateDetails.length;
+        stateName = []
+        for(i=0; i < noOfState; i++){
+            stateName.push(stateDetails[i].name);
+        }
+
+        cityDetails = City.getCitiesOfCountry('IN')
+        noOfCity = cityDetails.length;
+        cityName = []
+        for(i=0; i < noOfCity; i++){
+            cityName.push(cityDetails[i].name);
+        }
+        res.status(200).json({
+            message: 'State and City Fetched successfully',
+            state: stateName,
+            city: cityName
+        });
+    }
+    catch(error){
+        res.status(400).send({ message: error.message });
+    }    
+}
+
 
 module.exports = {
     setEntityInfo,
-    getAllEntityNameList
+    getAllEntityNameList,
+    getAllStateAndCity
 }

@@ -1,25 +1,18 @@
-var axios = require('axios');
+let Country = require('country-state-city').Country;
+let State = require('country-state-city').State;
+let City = require('country-state-city').City;
 
-const test = async() =>{
-    var entityName;
-    var config = {
-    method: 'get',
-    url: 'http://65.2.31.11:1410/api/v0/getAllEntityNameList',
-    headers: { }
-    };
-
-    try{
-        response = await axios(config)
-        entityName = response.data.data;
-    }
-    catch(error){
-        console.log(error);
-    }
-        console.log("entity name list");
-        for(i = 0; i< entityName.length; i++){
-            console.log(entityName[i].s_entity_name);
-        }
+stateDetails = State.getStatesOfCountry('IN')
+noOfState = stateDetails.length;
+stateName = []
+for(i=0; i < noOfState; i++){
+    stateName.push(stateDetails[i].name);
 }
 
-test()
+cityDetails = City.getCitiesOfCountry('IN')
+noOfCity = cityDetails.length;
+cityName = []
+for(i=0; i < noOfCity; i++){
+    cityName.push(cityDetails[i].name);
+}
 
