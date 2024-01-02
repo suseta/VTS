@@ -17,6 +17,7 @@ const setEntityInfo = async (req, res) => {
             s_entity_mb_no,
             s_entity_add,
             s_entity_pin,
+            s_entity_country,
             s_entity_state,
             s_entity_city,
             b_is_billing,
@@ -49,6 +50,7 @@ const setEntityInfo = async (req, res) => {
             s_entity_mb_no,
             s_entity_add,
             s_entity_pin,
+            s_entity_country,
             s_entity_state,
             s_entity_city,
             b_is_billing,
@@ -82,6 +84,7 @@ const setEntityInfo = async (req, res) => {
                     s_entity_mb_no,
                     s_entity_add,
                     s_entity_pin,
+                    s_entity_country,
                     s_entity_state,
                     s_entity_city,
                     b_is_billing,
@@ -101,7 +104,7 @@ const setEntityInfo = async (req, res) => {
                     b_is_fnd,
                     s_fnd_rt       
                 )
-                VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22, $23, $24, $25,$26, $27, $28)
+                VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22, $23, $24, $25,$26, $27, $28, $29)
                 RETURNING *;
             `,
         values: [
@@ -115,6 +118,7 @@ const setEntityInfo = async (req, res) => {
                     dataToInsert.s_entity_mb_no,
                     dataToInsert.s_entity_add,
                     dataToInsert.s_entity_pin,
+                    dataToInsert.s_entity_country,
                     dataToInsert.s_entity_state,
                     dataToInsert.s_entity_city,
                     dataToInsert.b_is_billing,
@@ -173,24 +177,41 @@ const getAllEntityNameList = async(req,res) =>{
     }   
 } 
 
-const getAllStateAndCity = async(req,res) =>{
+const getAllState = async(req,res) =>{
+    const {
+        s_entity_countryName
+    } = req.query
     try{
-        stateDetails = State.getStatesOfCountry('IN')
+        stateDetails = State.getStatesOfCountry(s_entity_countryName)
         noOfState = stateDetails.length;
         stateName = []
         for(i=0; i < noOfState; i++){
             stateName.push(stateDetails[i].name);
         }
+        res.status(200).json({
+            message: 'State Fetched successfully',
+            state: stateName
+        });
+    }
+    catch(error){
+        res.status(400).send({ message: error.message });
+    }    
+}
 
-        cityDetails = City.getCitiesOfCountry('IN')
+const getAllCity = async(req,res) =>{
+    const {
+        s_entity_countryName,
+        s_entity_state
+    } = req.query
+    try{
+        cityDetails = City.getCitiesOfState(s_entity_countryName,s_entity_state);
         noOfCity = cityDetails.length;
         cityName = []
         for(i=0; i < noOfCity; i++){
             cityName.push(cityDetails[i].name);
         }
         res.status(200).json({
-            message: 'State and City Fetched successfully',
-            state: stateName,
+            message: 'City Fetched successfully',
             city: cityName
         });
     }
@@ -203,5 +224,6 @@ const getAllStateAndCity = async(req,res) =>{
 module.exports = {
     setEntityInfo,
     getAllEntityNameList,
-    getAllStateAndCity
+    getAllState,
+    getAllCity,
 }
