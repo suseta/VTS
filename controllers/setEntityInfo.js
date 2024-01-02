@@ -28,6 +28,8 @@ const setEntityInfo = async (req, res) => {
             s_svr_typ,
             s_mb_actv,
             i_ovr_spd_lmt,
+            s_rep_wp,
+            s_frc_entity_map,
             b_is_fnd,
             s_fnd_rt
     } = req.body
@@ -58,6 +60,8 @@ const setEntityInfo = async (req, res) => {
             s_svr_typ,
             s_mb_actv,
             i_ovr_spd_lmt,
+            s_rep_wp,
+            s_frc_entity_map,
             b_is_fnd,
             s_fnd_rt   
     }
@@ -89,10 +93,12 @@ const setEntityInfo = async (req, res) => {
                     s_svr_typ,
                     s_mb_actv,
                     i_ovr_spd_lmt,
+                    s_rep_wp,
+                    s_frc_entity_map,
                     b_is_fnd,
                     s_fnd_rt       
                 )
-                VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22, $23, $24, $25,$26)
+                VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22, $23, $24, $25,$26, $27, $28)
                 RETURNING *;
             `,
         values: [
@@ -120,6 +126,8 @@ const setEntityInfo = async (req, res) => {
                     dataToInsert.s_svr_typ,
                     dataToInsert.s_mb_actv,
                     dataToInsert.i_ovr_spd_lmt,
+                    dataToInsert.s_rep_wp,
+                    dataToInsert.s_frc_entity_map,
                     dataToInsert.b_is_fnd,
                     dataToInsert.s_fnd_rt
         ]
