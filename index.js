@@ -17,7 +17,7 @@ app.use("/api/v0",path);
 
 const start = async ()=>{
     try{
-        await db.connect();
+        // await db.connect();
         console.log("Database connected successfully")
         app.listen(PORT, () =>{
             console.log(`Server is running at ${PORT}`);

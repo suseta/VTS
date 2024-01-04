@@ -3,30 +3,115 @@ const { getClient } = require('../db/connect')
 var client
 
 const setTransporterInfo = async (req, res) => {
-    const {
-        cus_entity_id,
+    let {
+        s_entity_id,
+        s_entity_id_and_name,
         s_trans_id,
-        s_trans_name 
+        s_trans_name,
+        trans_tmz,
+        s_trans_add,
+        s_trans_mail,
+        s_trans_mb_no,
+        s_trans_usr,
+        s_trans_pass,
+        s_trans_inact_tm,
+        s_trans_start_dt,
+        s_trans_due_dt,
+        s_trans_ext_dt,
+        s_trans_act_status,
+        s_trans_pan,
+        s_vh_sub_sync,
+        s_vh_sub_end,
+        b_is_bank,
+        s_trans_bnk,
+        s_trans_brn,
+        s_trans_acc_no,
+        s_trans_ifsc_cd 
     } = req.body
+
+    s_entity_id_and_name = s_entity_id + '^' + s_entity_id_and_name;
     
     try {
     const dataToInsert = {
+        s_entity_id,
+        s_entity_id_and_name,
         s_trans_id,
-        s_trans_name   
+        s_trans_name,
+        trans_tmz,
+        s_trans_add,
+        s_trans_mail,
+        s_trans_mb_no,
+        s_trans_usr,
+        s_trans_pass,
+        s_trans_inact_tm,
+        s_trans_start_dt,
+        s_trans_due_dt,
+        s_trans_ext_dt,
+        s_trans_act_status,
+        s_trans_pan,
+        s_vh_sub_sync,
+        s_vh_sub_end,
+        b_is_bank,
+        s_trans_bnk,
+        s_trans_brn,
+        s_trans_acc_no,
+        s_trans_ifsc_cd   
     }
 
     const query = {
         text: `
                 INSERT INTO transporter_details (
+                    s_entity_id,
+                    s_entity_id_and_name,
                     s_trans_id,
-                    s_trans_name     
+                    s_trans_name,
+                    trans_tmz,
+                    s_trans_add,
+                    s_trans_mail,
+                    s_trans_mb_no,
+                    s_trans_usr,
+                    s_trans_pass,
+                    s_trans_inact_tm,
+                    s_trans_start_dt,
+                    s_trans_due_dt,
+                    s_trans_ext_dt,
+                    s_trans_act_status,
+                    s_trans_pan,
+                    s_vh_sub_sync,
+                    s_vh_sub_end,
+                    b_is_bank,
+                    s_trans_bnk,
+                    s_trans_brn,
+                    s_trans_acc_no,
+                    s_trans_ifsc_cd     
                 )
-                VALUES ($1, $2)
+                VALUES ($1, $2,  $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22, $23)
                 RETURNING *;
             `,
         values: [
+                    dataToInsert.s_entity_id,
+                    dataToInsert.s_entity_id_and_name,
                     dataToInsert.s_trans_id,
-                    dataToInsert.s_trans_name
+                    dataToInsert.s_trans_name,
+                    dataToInsert.trans_tmz,
+                    dataToInsert.s_trans_add,
+                    dataToInsert.s_trans_mail,
+                    dataToInsert.s_trans_mb_no,
+                    dataToInsert.s_trans_usr,
+                    dataToInsert.s_trans_pass,
+                    dataToInsert.s_trans_inact_tm,
+                    dataToInsert.s_trans_start_dt,
+                    dataToInsert.s_trans_due_dt,
+                    dataToInsert.s_trans_ext_dt,
+                    dataToInsert.s_trans_act_status,
+                    dataToInsert.s_trans_pan,
+                    dataToInsert.s_vh_sub_sync,
+                    dataToInsert.s_vh_sub_end,
+                    dataToInsert.b_is_bank,
+                    dataToInsert.s_trans_bnk,
+                    dataToInsert.s_trans_brn,
+                    dataToInsert.s_trans_acc_no,
+                    dataToInsert.s_trans_ifsc_cd
         ]
     }
     client = await getClient()
@@ -45,12 +130,11 @@ const setTransporterInfo = async (req, res) => {
     }
 }
 
-const TransporterMapping = async(cus_entity_id,s_trans_id)
 
 const getCustomerEntityDetails = async(req,res) =>{
     try{
         const query = {
-            text: 'SELECT cus_entity_name FROM customer_entity_details;',
+            text: 'SELECT s_entity_id_and_name, s_trans_id, s_trans_name FROM transporter_details;',
             };
             
             client =await getClient(); 
@@ -58,7 +142,7 @@ const getCustomerEntityDetails = async(req,res) =>{
             try {
                 const result = await client.query(query);
                 res.status(200).json({
-                    message: 'Customer Entity Name Fetched successfully',
+                    message: 'Entity ID, Entity Name, Transporter Id, Transporter Name Fetched successfully',
                     data: result.rows
                 });
             } finally {
