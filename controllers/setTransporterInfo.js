@@ -131,7 +131,7 @@ const setTransporterInfo = async (req, res) => {
 }
 
 
-const getCustomerEntityDetails = async(req,res) =>{
+const getTransporterDetails = async(req,res) =>{
     try{
         const query = {
             text: 'SELECT s_entity_id_and_name, s_trans_id, s_trans_name FROM transporter_details;',
@@ -156,5 +156,5 @@ const getCustomerEntityDetails = async(req,res) =>{
 
 module.exports = {
     setTransporterInfo,
-    getCustomerEntityDetails
-}
+    getTransporterDetails
+} 
