@@ -26,7 +26,7 @@ router.route('/getAllState').get(getAllState);
 router.route('/getAllCity').get(getAllCity);
 router.route('/timezones').get(timezones);
 router.route('/setTransporterInfo').post(setTransporterInfo);
-router.route('/getCustomerEntityDetails').get(getTransporterDetails);
+router.route('/getTransporterDetails').get(getTransporterDetails);
 router.route('/setLocationInfo').post(setLocationInfo);
 router.route('/getAllLocationNameDetails').get(getAllLocationNameDetails);
 router.route('/getAllLocationPinDetails').get(getAllLocationPinDetails);
