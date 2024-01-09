@@ -31,6 +31,7 @@ const {
 const { setAssetDetails } = require('../controllers/setAssetDetails')
 const { setDeviceDetails } = require('../controllers/setDeviceDetails')
 const { assetDeviceMapping } = require('../controllers/assetDeviceMapping')
+const { assetDriverMapping } = require('../controllers/assetDriverMapping')
 
 router.route('/').get(index)
 
@@ -56,5 +57,6 @@ router.route('/getAllLocationPinDetails').get(getAllLocationPinDetails)
 router.route('/setAssetDetails').get(setAssetDetails)
 router.route('/setDeviceDetails').get(setDeviceDetails)
 router.route('/assetDeviceMapping').get(assetDeviceMapping)
+router.route('/assetDriverMapping').get(assetDriverMapping)
 
 module.exports = router
