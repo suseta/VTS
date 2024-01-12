@@ -16,10 +16,11 @@ AWS.config.update({
 
 const s3 = new AWS.S3();
 
+const convertStringNullToNull = (value) => value === 'null' ? null : value;
 
 const addDriver = async (req, res) => {
   let {
-    s_entity_id,
+      s_entity_id,
       s_entity_id_and_name,
       s_drv_id,
       s_drv_img_path,
@@ -46,6 +47,13 @@ const addDriver = async (req, res) => {
       s_covid_status
   } = req.body
    
+  lic_vld_dt = convertStringNullToNull(lic_vld_dt);
+  hzrd_vld_dt = convertStringNullToNull(hzrd_vld_dt);
+  med_tst_dt = convertStringNullToNull(med_tst_dt);
+  prd_trn_dt = convertStringNullToNull(med_tst_dt);
+  ddt_exp_dt = convertStringNullToNull(ddt_exp_dt);
+  cab_vld_dt = convertStringNullToNull(cab_vld_dt);
+
   if (
     !s_entity_id_and_name ||
     !s_drv_id ||
@@ -63,7 +71,7 @@ const addDriver = async (req, res) => {
   s_entity_id_and_name = s_entity_id + '^' + s_entity_id_and_name;
   
   let driveFileName = req.files['s_drv_img_path'][0].originalname + '_' + new Date().getTime();
-  console.log('v',req.body)
+  console.log('v',s_drv_city)
   const sDriverParams = {
     Bucket: s3bucketName,
     Key: `driver-images/${driveFileName}` ,
