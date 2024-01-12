@@ -71,7 +71,7 @@ const addDriver = async (req, res) => {
   s_entity_id_and_name = s_entity_id + '^' + s_entity_id_and_name;
   
   let driveFileName = req.files['s_drv_img_path'][0].originalname + '_' + new Date().getTime();
-  console.log('v',s_drv_city)
+  
   const sDriverParams = {
     Bucket: s3bucketName,
     Key: `driver-images/${driveFileName}` ,
