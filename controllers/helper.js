@@ -3,6 +3,10 @@ let Country = require('country-state-city').Country;
 let State = require('country-state-city').State;
 let City = require('country-state-city').City;
 
+const index = async (req, res) => {
+    res.status(200).json({ message: 'I am in index' })
+}
+
 const timezones = async(req,res) =>{
     const timezonesDetails = ct.getAllTimezones();
     const timezonesName = Object.values(timezonesDetails).map(entry => entry.name);
@@ -93,6 +97,7 @@ const getISObyStateName = async(s_entity_countryName,s_entity_state) => {
 
 
 module.exports ={
+    index,
     timezones,
     getAllCountries,
     getAllState,

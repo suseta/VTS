@@ -117,7 +117,6 @@ const setTransporterInfo = async (req, res) => {
     client = await getClient()
     try {
         const result = await client.query(query)
-        console.log('Transporter Data inserted successfully:', result.rows[0])
         res.status(200).json({
         message: 'Transporter Entity info stored successfully!',
         data: result.rows[0]
