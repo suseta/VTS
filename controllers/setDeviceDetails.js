@@ -98,9 +98,15 @@ const getDeviceDetails = async(req,res) =>{
 
             try {
                 const result = await client.query(query);
+                const formattedData = result.rows.map((row) => ({
+                    ...row,
+                    dvc_mfg_dt: row.dvc_mfg_dt ? new Date(row.dvc_mfg_dt).toLocaleDateString() : null,
+                    dvc_add_dt: row.dvc_add_dt ? new Date(row.dvc_add_dt).toLocaleDateString() : null,
+                    dvc_dlt_dt: row.dvc_dlt_dt ? new Date(row.dvc_dlt_dt).toLocaleDateString() : null,
+                }));
                 res.status(200).json({
                     message: 'Device Data Fetched successfully',
-                    data: result.rows
+                    data: formattedData
                 });
             } finally {
                 await client.end();
