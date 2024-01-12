@@ -4,14 +4,12 @@ var client
 
 const setAssetInfo = async (req, res) => {
   const {
-    s_fuel_typ,
     s_asset_typ,
-    s_asset_cap  
+    s_asset_cap 
   } = req.body
 
   try {
     const dataToInsert = {
-        s_fuel_typ,
         s_asset_typ,
         s_asset_cap  
     }
@@ -19,15 +17,13 @@ const setAssetInfo = async (req, res) => {
     const query = {
       text: `
                 INSERT INTO asset_info (
-                    s_fuel_typ,
                     s_asset_typ,
                     s_asset_cap     
                 )
-                VALUES ($1, $2, $3)
+                VALUES ($1, $2)
                 RETURNING *;
             `,
       values: [
-        dataToInsert.s_fuel_typ,
         dataToInsert.s_asset_typ,
         dataToInsert.s_asset_cap
       ]
@@ -47,28 +43,6 @@ const setAssetInfo = async (req, res) => {
     res.status(400).send({ message: error.message })
   }
 }
-
-const getFuelDetails = async(req,res) =>{
-    try{
-        const query = {
-            text: 'SELECT s_fuel_typ FROM asset_info;',
-            };
-            
-            client =await getClient(); 
-
-            try {
-                const result = await client.query(query);
-                res.status(200).json({
-                    message: 'Fuel Type Data Fetched successfully',
-                    data: result.rows
-                });
-            } finally {
-                await client.end();
-            }
-    }catch(error){
-        res.status(400).send({ message: error.message });
-    }   
-}   
 
 const getAssetTypeDetails = async(req,res) =>{
     try{
@@ -116,7 +90,6 @@ const getAssetCapacityDetails = async(req,res) =>{
 
 module.exports = {
     setAssetInfo,
-    getFuelDetails,
     getAssetTypeDetails,
     getAssetCapacityDetails
 }
