@@ -200,8 +200,29 @@ const addDriver = async (req, res) => {
 
 const getDriverDetails = async(req,res) =>{
   try{
+
+      let queryParams = [];
+      let conditions = [];
+      var pararmsCount=1;
+
+      if (req.query.s_entity_id) {
+          conditions.push(`s_entity_id = $${pararmsCount}`);
+          queryParams.push(req.query.s_entity_id);
+          pararmsCount++;
+      }
+
+      if (req.query.s_entity_id_and_name) {
+          conditions.push(`s_entity_id_and_name = $${pararmsCount}`);
+          queryParams.push(req.query.s_entity_id_and_name);
+      }
+
+      let whereClause = '';
+      if (conditions.length > 0) {
+          whereClause = 'WHERE ' + conditions.join(' OR ');
+      }
       const query = {
-          text: 'SELECT s_entity_id_and_name,s_drv_id,s_drv_name FROM driver_details;',
+          text: `SELECT s_entity_id_and_name,s_drv_id,s_drv_name FROM driver_details ${whereClause};`,
+          values: queryParams,
           };
           
           client =await getClient(); 
@@ -219,7 +240,6 @@ const getDriverDetails = async(req,res) =>{
       res.status(400).send({ message: error.message });
   }   
 } 
-
 
 module.exports = {
   addDriver,

@@ -130,27 +130,54 @@ const setTransporterInfo = async (req, res) => {
 }
 
 
-const getTransporterDetails = async(req,res) =>{
-    try{
-        const query = {
-            text: 'SELECT s_entity_id_and_name, s_trans_id, s_trans_name FROM transporter_details;',
-            };
-            
-            client =await getClient(); 
+const getTransporterDetails = async (req, res) => {
+    try {
+        let queryParams = [];
+        let conditions = [];
+        var pararmsCount=1;
 
-            try {
-                const result = await client.query(query);
-                res.status(200).json({
-                    message: 'Entity ID, Entity Name, Transporter Id, Transporter Name Fetched successfully',
-                    data: result.rows
-                });
-            } finally {
-                await client.end();
-            }
-    }catch(error){
+        if (req.query.s_entity_id) {
+            conditions.push(`s_entity_id = $${pararmsCount}`);
+            queryParams.push(req.query.s_entity_id);
+            pararmsCount++;
+        }
+
+        if (req.query.s_entity_id_and_name) {
+            conditions.push(`s_entity_id_and_name = $${pararmsCount}`);
+            queryParams.push(req.query.s_entity_id_and_name);
+        }
+
+        let whereClause = '';
+        if (conditions.length > 0) {
+            whereClause = 'WHERE ' + conditions.join(' OR ');
+        }
+
+        const query = {
+            text: `SELECT s_entity_id, s_entity_id_and_name, s_trans_id, s_trans_name FROM transporter_details ${whereClause};`,
+            values: queryParams,
+        };
+
+        const client = await getClient();
+
+        try {
+            const result = await client.query(query);
+            res.status(200).json({
+                message: 'Transporter details fetched successfully',
+                data: result.rows,
+            });
+        } finally {
+            await client.end();
+        }
+    } catch (error) {
         res.status(400).send({ message: error.message });
-    }   
-} 
+    }
+};
+
+// Example of usage:
+// http://localhost:1410/api/v0/getTransporterDetails?s_entity_id_and_name=1234%5EAIR-HO
+
+
+
 
 
 module.exports = {

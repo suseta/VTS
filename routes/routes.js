@@ -22,23 +22,15 @@ const {
   setTransporterInfo,
   getTransporterDetails
 } = require('../controllers/setTransporterInfo')
-// const { addVehicle } = require('../controllers/vehicleDetails')
+const { addVehicle, getVehicleDetails } = require('../controllers/setAssetVehicleDetails')
 const {
   setAssetInfo,
   getAssetTypeDetails,
   getAssetCapacityDetails
 } = require('../controllers/setAssetInfo')
-
-// const {
-//   setLocationInfo,
-//   getAllLocationNameDetails,
-//   getAllLocationPinDetails
-// } = require('../controllers/old/setLocInfo')
-// const { setAssetDetails } = require('../controllers/setAssetDetails')
 const { setDeviceDetails,getDeviceDetails } = require('../controllers/setDeviceDetails')
-const {getDeviceTypeDetails} = require('../controllers/deviceType')
-// const { assetDeviceMapping } = require('../controllers/assetDeviceMapping')
-// const { assetDriverMapping } = require('../controllers/assetDriverMapping')
+const { setAssetDeviceMapping,getAssetDeviceMapping } = require('../controllers/assetDeviceMapping')
+const { setAssetDriverMapping, getAssetDriverMapping } = require('../controllers/assetDriverMapping')
 
 router.route('/').get(index);
 router.route('/setEntityInfo').post(setEntityInfo);
@@ -56,24 +48,11 @@ router.route('/getAssetTypeDetails').get(getAssetTypeDetails);
 router.route('/getAssetCapacityDetails').get(getAssetCapacityDetails); 
 router.route('/setDeviceDetails').post(setDeviceDetails);
 router.route('/getDeviceDetails').get(getDeviceDetails);
-router.route('/getDeviceTypeDetails').get(getDeviceTypeDetails);
-
-
-
-
-// router.route('/setLocationInfo').post(setLocationInfo)
-// router.route('/getAllLocationNameDetails').get(getAllLocationNameDetails)
-// router.route('/getAllLocationPinDetails').get(getAllLocationPinDetails)
-
-// router.route('/addVehicle').post(addVehicle)
-// router.route("/vehicleDetails").post(vehicleDetails);
-
-
-
-
-
-// 
-// router.route('/assetDeviceMapping').get(assetDeviceMapping)
-// router.route('/assetDriverMapping').get(assetDriverMapping)
+router.route('/addVehicle').post(addVehicle)
+router.route("/getVehicleDetails").get(getVehicleDetails);
+router.route('/setAssetDeviceMapping').post(setAssetDeviceMapping)
+router.route('/getAssetDeviceMapping').get(getAssetDeviceMapping);
+router.route('/setAssetDriverMapping').post(setAssetDriverMapping);
+router.route('/getAssetDriverMapping').get(getAssetDriverMapping);
 
 module.exports = router
