@@ -117,6 +117,14 @@ const setTransporterInfo = async (req, res) => {
     client = await getClient()
     try {
         const result = await client.query(query)
+
+        const formattedData = result.rows.map((row) => ({
+            ...row,
+            s_trans_start_dt: row.s_trans_start_dt ? new Date(row.s_trans_start_dt).toLocaleDateString() : null,
+            s_trans_due_dt: row.s_trans_due_dt ? new Date(row.s_trans_due_dt).toLocaleDateString() : null,
+            s_trans_ext_dt: row.s_trans_ext_dt ? new Date(row.s_trans_ext_dt).toLocaleDateString() : null,
+        }));
+
         res.status(200).json({
         message: 'Transporter Entity info stored successfully!',
         data: result.rows[0]
@@ -172,11 +180,6 @@ const getTransporterDetails = async (req, res) => {
         res.status(400).send({ message: error.message });
     }
 };
-
-// Example of usage:
-// http://localhost:1410/api/v0/getTransporterDetails?s_entity_id_and_name=1234%5EAIR-HO
-
-
 
 
 
