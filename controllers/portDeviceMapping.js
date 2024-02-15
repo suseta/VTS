@@ -10,13 +10,15 @@ const setPortDeviceMapping = async (req, res) => {
     prt_dvc_unmp_dt
   } = req.body
 
-  if (!i_imei_no || !i_port_no ) {
+  if (!i_imei_no || !i_port_no || !prt_dvc_mp_dt) {
     return res.status(400).json({
       error: 'imei no or port no cannot be empty!'
     })
   }
+  if (prt_dvc_unmp_dt === '') {
+    prt_dvc_unmp_dt = null;
+  }
   
-
   try {
     const dataToInsert = {
         i_imei_no,
