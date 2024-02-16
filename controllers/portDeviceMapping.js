@@ -12,7 +12,7 @@ const setPortDeviceMapping = async (req, res) => {
 
   if (!i_imei_no || !i_port_no || !prt_dvc_mp_dt) {
     return res.status(400).json({
-      error: 'imei no or port no cannot be empty!'
+      error: 'imei no or port no or prt_dvc_mp_dt cannot be empty!'
     })
   }
   if (prt_dvc_unmp_dt === '') {
@@ -33,16 +33,18 @@ const setPortDeviceMapping = async (req, res) => {
                     i_imei_no,
                     i_port_no,
                     prt_dvc_mp_dt,
-                    prt_dvc_unmp_dt
+                    prt_dvc_unmp_dt,
+                    last_port_access_by_imei
                 )
-                VALUES ($1, $2, $3, $4)
+                VALUES ($1, $2, $3, $4, $5)
                 RETURNING *;
             `,
       values: [
         dataToInsert.i_imei_no,
         dataToInsert.i_port_no,
         dataToInsert.prt_dvc_mp_dt,
-        dataToInsert.prt_dvc_unmp_dt
+        dataToInsert.prt_dvc_unmp_dt,
+        0
       ]
     }
     client = await getClient()
