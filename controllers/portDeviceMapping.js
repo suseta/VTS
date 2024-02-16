@@ -53,7 +53,7 @@ const setPortDeviceMapping = async (req, res) => {
 
       var isPortInitialized = await client.query(selectQuery);
       
-      if (isPortInitialized.rows[0].s_last_port_no == 0) {
+      if (isPortInitialized.rowCount == 0) {
           const insertLastPortQuery = {
               text: `INSERT INTO last_port_by_imei (i_imei_no, s_last_port_no) VALUES ($1, $2) RETURNING *; `,
               values: [dataToInsert.i_imei_no, dataToInsert.i_port_no]
