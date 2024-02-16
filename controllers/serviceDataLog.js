@@ -7,7 +7,7 @@ const getServiceDataLog = async(req,res) =>{
         i_imei_no,
         reqDate,
         s_port_no
-      } = req.body
+      } = req.query
     
     
       try {
