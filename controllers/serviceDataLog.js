@@ -1,3 +1,4 @@
+const { query } = require('express')
 const { getClient } = require('../db/connect')
 
 var client
@@ -9,15 +10,9 @@ const getServiceDataLog = async(req,res) =>{
         s_port_no
       } = req.query
     
-    
       try {
-        const dataToInsert = {
-            i_imei_no,
-            reqDate,
-            s_port_no  
-        }  
       const query = {
-          text: `SELECT s_raw_pkt FROM datalog WHERE i_imei_no = '${dataToInsert.i_imei_no}' AND s_port_no = '${dataToInsert.s_port_no}' AND i_status = 1 AND DATE(svr_ht_ts) = '${dataToInsert.reqDate}';`,
+          text: `SELECT s_raw_pkt FROM datalog WHERE i_imei_no = '${i_imei_no}' AND s_port_no = '${s_port_no}' AND i_status = 1 AND DATE(svr_ht_ts) = '${reqDate}';`,
           }; 
           
           client =await getClient(); 
