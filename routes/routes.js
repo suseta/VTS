@@ -32,7 +32,7 @@ const { setDeviceDetails,getDeviceDetails } = require('../controllers/setDeviceD
 const { setAssetDeviceMapping,getAssetDeviceMapping } = require('../controllers/assetDeviceMapping')
 const { setAssetDriverMapping, getAssetDriverMapping } = require('../controllers/assetDriverMapping')
 const {getDeviceTypeDetails} = require('../controllers/deviceType');
-const {setPortDeviceMapping,getPortDeviceMapping} = require('../controllers/portDeviceMapping');
+const {setPortDeviceMapping,getPortDeviceMapping,getLatestAccessPortByImei} = require('../controllers/portDeviceMapping');
 
 router.route('/').get(index);
 router.route('/setEntityInfo').post(setEntityInfo);
@@ -59,4 +59,5 @@ router.route('/getAssetDriverMapping').get(getAssetDriverMapping);
 router.route('/getDeviceTypeDetails').get(getDeviceTypeDetails);
 router.route('/setPortDeviceMapping').post(setPortDeviceMapping);
 router.route('/getPortDeviceMapping').get(getPortDeviceMapping);
+router.route('/getLatestAccessPortByImei').get(getLatestAccessPortByImei);
 module.exports = router

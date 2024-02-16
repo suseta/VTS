@@ -48,6 +48,20 @@ const setPortDeviceMapping = async (req, res) => {
     client = await getClient()
     try {
       const result = await client.query(query)
+
+      const query = {
+        text: `SELECT s_last_port_no FROM last_port_by_imei WHERE i_imei_no = '${dataToInsert.i_imei_no}';`,
+      }; 
+      
+      isPortInitialized = await client.query(query);
+
+      if(isPortInitialized.rows[0].s_last_port_no == 0){
+        const query = {
+          text:`insert into last_port_by_imei(i_imei_no,s_last_port_no)values($1,$2)`,values:[dataToInsert.i_imei_no,dataToInsert.i_port_no,]
+        }
+        lastPortInitializedForDevice = await client.query(query);
+      }
+
       console.log('Data inserted successfully:', result.rows[0])
       res.status(200).json({
         message: 'Port Device Mapping data stored successfully!',
@@ -60,6 +74,7 @@ const setPortDeviceMapping = async (req, res) => {
     res.status(400).send({ message: error.message })
   }
 }
+
 
 const getPortDeviceMapping = async(req,res) =>{
   try{
@@ -84,7 +99,33 @@ const getPortDeviceMapping = async(req,res) =>{
   }   
 } 
 
+const getLatestAccessPortByImei = async(req,res) =>{
+  try{
+      const imeiNo = req.query.i_imei_no;
+      const query = {
+          text: `SELECT s_last_port_no FROM last_port_by_imei WHERE i_imei_no = '${imeiNo}';`,
+          };
+          
+          client =await getClient(); 
+
+          try {
+              const result = await client.query(query);
+              res.status(200).json({
+                  message: 'i_port_no Fetched successfully',
+                  data: result.rows
+              });
+          } finally {
+              await client.end();
+          }
+  }catch(error){
+      res.status(400).send({ message: error.message });
+  }   
+} 
+
+
 module.exports = {
     setPortDeviceMapping,
-    getPortDeviceMapping
+    getPortDeviceMapping,
+    getLatestAccessPortByImei
 }
+
