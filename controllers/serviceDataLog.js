@@ -54,7 +54,10 @@ const getParsedData = async (req, res) => {
                 };
                 const gps1parsedData = await client.query(parsed1Details);
 
-                const combinedData = [...gps0parsedData.rows, ...gps1parsedData.rows];
+                const combinedData = [...gps0parsedData.rows, ...gps1parsedData.rows].map(row => ({
+                    ...row,
+                    gps_dt: new Date(row.gps_dt).toISOString().split('T')[0] // Extracting only date
+                }));
 
                 if (combinedData.length === 0) {
                     res.status(200).json({
