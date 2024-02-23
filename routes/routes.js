@@ -64,5 +64,5 @@ router.route('/getPortDeviceMapping').get(getPortDeviceMapping);
 router.route('/getLatestAccessPortByImei').get(getLatestAccessPortByImei);
 router.route('/getServiceDataLog').get(getServiceDataLog);
 router.route('/getParsedData').get(getParsedData);
-router.route('/').get(generateExcel)
+router.route('/generateExcel').get(generateExcel)
 module.exports = router
