@@ -22,7 +22,7 @@ function jsonToExcel(jsonData) {
 }
 
 function saveExcelFile(workbook, date) {
-    const filePath = path.join(__dirname, '..', '..', 'data', `data_${date}.xlsx`);
+    const filePath = path.join(__dirname, '..', '..', 'vts', 'data', `data_${date}.xlsx`);
 
     try {
         XLSX.writeFile(workbook, filePath);
