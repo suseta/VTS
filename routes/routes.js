@@ -34,6 +34,7 @@ const { setAssetDriverMapping, getAssetDriverMapping } = require('../controllers
 const {getDeviceTypeDetails} = require('../controllers/deviceType');
 const {setPortDeviceMapping,getPortDeviceMapping,getLatestAccessPortByImei} = require('../controllers/portDeviceMapping');
 const {getServiceDataLog,getParsedData} = require('../controllers/serviceDataLog');
+const {generateExcel} = require('../controllers/jsonToExcel')
 
 router.route('/').get(index);
 router.route('/setEntityInfo').post(setEntityInfo);
@@ -63,4 +64,5 @@ router.route('/getPortDeviceMapping').get(getPortDeviceMapping);
 router.route('/getLatestAccessPortByImei').get(getLatestAccessPortByImei);
 router.route('/getServiceDataLog').get(getServiceDataLog);
 router.route('/getParsedData').get(getParsedData);
+router.route('/').get(generateExcel)
 module.exports = router
