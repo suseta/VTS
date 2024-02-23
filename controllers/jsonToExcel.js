@@ -3,7 +3,7 @@ const XLSX = require('xlsx');
 const path = require('path');
 
 function readJsonData(date) {
-    const filePath = path.join(__dirname, '..', '..', 'data', `data_${date}.json`);
+    const filePath = path.join(__dirname, '..', '..','vts', 'data', `data_${date}.json`);
 
     try {
         const jsonData = fs.readFileSync(filePath, 'utf8');
@@ -35,8 +35,8 @@ function saveExcelFile(workbook, date) {
 }
 
 function generateExcel(req, res) {
-    const { date } = req.query.dataDate;
-
+    const  date  = req.query.dataDate;
+console.log("data",date);
     const jsonData = readJsonData(date);
     if (!jsonData) {
         return res.status(404).json({ error: `Data for date ${date} not found.` });
@@ -47,6 +47,9 @@ function generateExcel(req, res) {
     if (!filePath) {
         return res.status(500).json({ error: `Failed to generate Excel file for date ${date}.` });
     }
+
+    const fileName = `data_${date}.xlsx`;
+    res.setHeader('Content-Disposition', `attachment; filename="${fileName}"`);
 
     res.sendFile(filePath, (err) => {
         if (err) {
