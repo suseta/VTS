@@ -36,7 +36,7 @@ function saveExcelFile(workbook, date) {
 
 function generateExcel(req, res) {
     const  date  = req.query.dataDate;
-console.log("data",date);
+    
     const jsonData = readJsonData(date);
     if (!jsonData) {
         return res.status(404).json({ error: `Data for date ${date} not found.` });
