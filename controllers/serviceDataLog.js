@@ -1,4 +1,3 @@
-const { query } = require('express')
 const { getClient } = require('../db/connect')
 
 var client
@@ -31,128 +30,203 @@ const getServiceDataLog = async (req, res) => {
     }
 }
 
-const getParsedData = async (req, res) => {
-    const { s_raw_pkt } = req.query;
+// const getParsedData = async (req, res) => {
+//     const { s_raw_pkt } = req.query;
 
+//     try {
+//         const query = {
+//             text: `SELECT s_unique_id from datalog WHERE s_raw_pkt = '${s_raw_pkt}';`,
+//         };
+
+//         client = await getClient();
+
+//         try {
+//             const result = await client.query(query);
+//             if (result.rowCount > 0) {
+//                 let uniqueId = result.rows[0].s_unique_id;
+//                 const parsed0Details = {
+//                     text: `SELECT  
+//                     s_pkt_hdr,
+//                     s_frmwr_ver,
+//                     s_pkt_typ,
+//                     s_pkt_status,
+//                     s_imei_no,
+//                     s_asset_id,
+//                     i_gps_status,
+//                     gps_dt,
+//                     gps_tm,
+//                     d_lat,
+//                     s_lat_dir,
+//                     d_long,
+//                     s_long_dir,
+//                     d_alt,
+//                     d_spd,
+//                     s_grd_crs,
+//                     i_sat_cnt,
+//                     d_hdop,
+//                     d_pdop,
+//                     s_ntw_op,
+//                     s_ntw_typ,
+//                     d_sgnl_pwr,
+//                     d_mn_pwr,
+//                     d_int_bat_volt,
+//                     s_ign_ip,
+//                     s_buz_op,
+//                     s_dyn_f1,
+//                     s_bt_f,
+//                     s_u_art,
+//                     s_ext_adc_val,
+//                     s_dvc_state,
+//                     s_odometer,
+//                     s_pkt_cnt,
+//                     s_crc
+//                     FROM gps_0_parsed_data WHERE s_unique_id = '${uniqueId}';`,
+//                 };
+//                 const gps0parsedData = await client.query(parsed0Details);
+//                 const parsed1Details = {
+//                     text: `SELECT  
+//                     s_pkt_hdr,
+//                     s_frmwr_ver,
+//                     s_pkt_typ,
+//                     s_pkt_status,
+//                     s_imei_no,
+//                     s_asset_id,
+//                     i_gps_status,
+//                     gps_dt,
+//                     gps_tm,
+//                     d_lat,
+//                     s_lat_dir,
+//                     d_long,
+//                     s_long_dir,
+//                     d_alt,
+//                     d_spd,
+//                     s_grd_crs,
+//                     i_sat_cnt,
+//                     d_hdop,
+//                     d_pdop,
+//                     s_ntw_op,
+//                     s_ntw_typ,
+//                     d_sgnl_pwr,
+//                     d_mn_pwr,
+//                     d_int_bat_volt,
+//                     s_ign_ip,
+//                     s_buz_op,
+//                     s_dyn_f1,
+//                     s_bt_f,
+//                     s_u_art,
+//                     s_ext_adc_val,
+//                     s_dvc_state,
+//                     s_odometer,
+//                     s_pkt_cnt,
+//                     s_crc
+//                     FROM gps_1_parsed_data WHERE s_unique_id = '${uniqueId}';`,
+//                 };
+//                 const gps1parsedData = await client.query(parsed1Details);
+
+//                 const combinedData = [...gps0parsedData.rows, ...gps1parsedData.rows].map(row => ({
+//                     ...row,
+//                     gps_dt: new Date(row.gps_dt).toISOString().split('T')[0] // Extracting only date
+//                 }));
+
+//                 if (combinedData.length === 0) {
+//                     res.status(200).json({
+//                         message: 'No data found for the given raw packet',
+//                         data: []
+//                     });
+//                 } else {
+//                     res.status(200).json({
+//                         message: 'Raw packet Fetched successfully',
+//                         data: combinedData
+//                     });
+//                 }
+//             } else {
+//                 res.status(404).json({
+//                     message: 'No data found for the given raw packet',
+//                     data: []
+//                 });
+//             }
+//         } finally {
+//             await client.end();
+//         }
+//     } catch (error) {
+//         res.status(400).send({ message: error.message });
+//     }
+// }
+
+async function parseDeviceData(i_imei_no, deviceId, data) {
     try {
-        const query = {
-            text: `SELECT s_unique_id from datalog WHERE s_raw_pkt = '${s_raw_pkt}';`,
+        var query = {
+            text: 'SELECT s_dvc_typ FROM device_details WHERE "i_imei_no" = $1',
+            values: [i_imei_no],
         };
-
-        client = await getClient();
+        let client = await getClient();
 
         try {
-            const result = await client.query(query);
-            if (result.rowCount > 0) {
-                let uniqueId = result.rows[0].s_unique_id;
-                const parsed0Details = {
-                    text: `SELECT  
-                    s_pkt_hdr,
-                    s_frmwr_ver,
-                    s_pkt_typ,
-                    s_pkt_status,
-                    s_imei_no,
-                    s_asset_id,
-                    i_gps_status,
-                    gps_dt,
-                    gps_tm,
-                    d_lat,
-                    s_lat_dir,
-                    d_long,
-                    s_long_dir,
-                    d_alt,
-                    d_spd,
-                    s_grd_crs,
-                    i_sat_cnt,
-                    d_hdop,
-                    d_pdop,
-                    s_ntw_op,
-                    s_ntw_typ,
-                    d_sgnl_pwr,
-                    d_mn_pwr,
-                    d_int_bat_volt,
-                    s_ign_ip,
-                    s_buz_op,
-                    s_dyn_f1,
-                    s_bt_f,
-                    s_u_art,
-                    s_ext_adc_val,
-                    s_dvc_state,
-                    s_odometer,
-                    s_pkt_cnt,
-                    s_crc
-                    FROM gps_0_parsed_data WHERE s_unique_id = '${uniqueId}';`,
-                };
-                const gps0parsedData = await client.query(parsed0Details);
-                const parsed1Details = {
-                    text: `SELECT  
-                    s_pkt_hdr,
-                    s_frmwr_ver,
-                    s_pkt_typ,
-                    s_pkt_status,
-                    s_imei_no,
-                    s_asset_id,
-                    i_gps_status,
-                    gps_dt,
-                    gps_tm,
-                    d_lat,
-                    s_lat_dir,
-                    d_long,
-                    s_long_dir,
-                    d_alt,
-                    d_spd,
-                    s_grd_crs,
-                    i_sat_cnt,
-                    d_hdop,
-                    d_pdop,
-                    s_ntw_op,
-                    s_ntw_typ,
-                    d_sgnl_pwr,
-                    d_mn_pwr,
-                    d_int_bat_volt,
-                    s_ign_ip,
-                    s_buz_op,
-                    s_dyn_f1,
-                    s_bt_f,
-                    s_u_art,
-                    s_ext_adc_val,
-                    s_dvc_state,
-                    s_odometer,
-                    s_pkt_cnt,
-                    s_crc
-                    FROM gps_1_parsed_data WHERE s_unique_id = '${uniqueId}';`,
-                };
-                const gps1parsedData = await client.query(parsed1Details);
-
-                const combinedData = [...gps0parsedData.rows, ...gps1parsedData.rows].map(row => ({
-                    ...row,
-                    gps_dt: new Date(row.gps_dt).toISOString().split('T')[0] // Extracting only date
-                }));
-
-                if (combinedData.length === 0) {
-                    res.status(200).json({
-                        message: 'No data found for the given raw packet',
-                        data: []
-                    });
-                } else {
-                    res.status(200).json({
-                        message: 'Raw packet Fetched successfully',
-                        data: combinedData
-                    });
-                }
-            } else {
-                res.status(404).json({
-                    message: 'No data found for the given raw packet',
-                    data: []
-                });
+            let result = await client.query(query);
+            if (result.rows.length === 0) {
+                return [];
             }
+            const deviceType = result.rows[0].s_dvc_typ;
+            query = {
+                text: 'SELECT * FROM device_config WHERE "device_id" = $1 AND $2 = ANY(device_type)',
+                values: [deviceId, deviceType],
+            };
+            result = await client.query(query);
+            if (result.rows.length === 0) {
+                return [];
+            }
+
+            const config = result.rows[0];
+
+            const parsedData = {};
+            const fields = data.split(config.delimiter);
+            config.field_names.forEach((fieldName, index) => {
+                parsedData[fieldName] = fields[index];
+            });
+
+            return parsedData;
         } finally {
             await client.end();
         }
     } catch (error) {
-        res.status(400).send({ message: error.message });
+        return {
+            error: `Error parsing data for device ID ${deviceId} and deviceType ${deviceType}: ${error.message}`
+        };
     }
 }
+
+const getParsedData = async (req, res) => {
+    const { i_imei_no, deviceId, s_raw_pkt } = req.query;
+
+    try {
+        const parsedData = await parseDeviceData(i_imei_no, deviceId, s_raw_pkt);
+        if (parsedData.error) {
+            return res.status(400).json({
+                success: false,
+                message: parsedData.error
+            });
+        }
+        if (parsedData.length === 0) {
+            return res.status(200).json({
+                success: true,
+                message: 'No data found for the given raw packet',
+                data: []
+            });
+        } else {
+            return res.status(200).json({
+                success: true,
+                message: 'Raw packet Fetched successfully',
+                data: parsedData
+            });
+        }
+    } catch (error) {
+        return res.status(400).json({
+            success: false,
+            message: error.message
+        });
+    }
+};
+
 
 
 const getClientDeviceDetails = async (req, res) => {
@@ -173,7 +247,7 @@ const getClientDeviceDetails = async (req, res) => {
                 for (let row of result.rows) {
                     const { s_asset_id, i_nw_imei_no } = row;
                     const existingDataQuery = {
-                        text: `SELECT * FROM lastGpsParsedDataInfo WHERE "s_imei_no" = $1 AND "s_asset_id" = $2`,
+                        text: `SELECT * FROM lastgpsparseddatainfo WHERE "s_imei_no" = $1 AND "s_asset_id" = $2`,
                         values: [i_nw_imei_no, s_asset_id],
                     };
                     const existingDataResult = await client.query(existingDataQuery);
@@ -184,7 +258,7 @@ const getClientDeviceDetails = async (req, res) => {
                         }));
                         allData.push(formattedData);
                     }
-                    
+
                 }
                 res.status(200).json({
                     message: 'Client Parsed Datalog fetched successfully',
@@ -203,8 +277,8 @@ const getClientDeviceDetails = async (req, res) => {
 
 
 module.exports = {
-        getServiceDataLog,
-        getParsedData,
-        getClientDeviceDetails
+    getServiceDataLog,
+    getParsedData,
+    getClientDeviceDetails
 }
 

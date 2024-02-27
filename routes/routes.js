@@ -16,7 +16,8 @@ const {
   timezones,
   getAllCountries,
   getAllState,
-  getAllCity
+  getAllCity,
+  deviceConfig
 } = require('../controllers/helper')
 const {
   setTransporterInfo,
@@ -66,4 +67,6 @@ router.route('/getServiceDataLog').get(getServiceDataLog);
 router.route('/getParsedData').get(getParsedData);
 router.route('/getClientDeviceDetails').get(getClientDeviceDetails);
 router.route('/generateExcel').get(generateExcel)
+router.route('/deviceConfig').post(deviceConfig);
+
 module.exports = router

@@ -2,6 +2,7 @@ const ct = require('countries-and-timezones');
 let Country = require('country-state-city').Country;
 let State = require('country-state-city').State;
 let City = require('country-state-city').City;
+const { getClient } = require('../db/connect')
 
 const index = async (req, res) => {
     res.status(200).json({ message: 'I am in index' })
@@ -95,6 +96,31 @@ const getISObyStateName = async(s_entity_countryName,s_entity_state) => {
     return isoCode;  
 }
 
+const deviceConfig = async (req, res) => {
+    const { deviceId, delimiter, fieldNames } = req.body;
+
+    try {
+        // Insert device configuration into the database
+        const query = {
+            text: 'INSERT INTO device_config (device_id, delimiter, field_names) VALUES ($1, $2, $3)',
+            values: [deviceId, delimiter, fieldNames],
+        };
+        client = await getClient();
+        try {
+            const result = await client.query(query);
+            res.status(200).json({
+                message: 'raw packet Fetched successfully',
+                data: result.rows
+            });
+        } finally {
+            await client.end();
+        }
+    } catch (error) {
+        res.status(400).send({ message: error.message });
+    }
+}
+
+
 
 module.exports ={
     index,
@@ -102,4 +128,5 @@ module.exports ={
     getAllCountries,
     getAllState,
     getAllCity,
+    deviceConfig
 }
