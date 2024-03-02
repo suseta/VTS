@@ -229,7 +229,7 @@ const getParsedData = async (req, res) => {
 
 
 
-const getClientDeviceDetails = async (req, res) => {
+const getLiveVehicleData = async (req, res) => {
     const { s_entity_id } = req.query;
 
     try {
@@ -279,6 +279,6 @@ const getClientDeviceDetails = async (req, res) => {
 module.exports = {
     getServiceDataLog,
     getParsedData,
-    getClientDeviceDetails
+    getLiveVehicleData
 }
 
