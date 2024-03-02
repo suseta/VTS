@@ -2,7 +2,7 @@ const { getClient } = require('../db/connect')
 
 var client
 
-const setTransporterInfo = async (req, res) => {
+const setUserInfo = async (req, res) => {
     let {
         s_entity_id,
         s_entity_id_and_name,
@@ -184,6 +184,6 @@ const getTransporterDetails = async (req, res) => {
 
 
 module.exports = {
-    setTransporterInfo,
+    setUserInfo,
     getTransporterDetails
 } 

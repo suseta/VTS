@@ -20,9 +20,9 @@ const {
   deviceConfig
 } = require('../controllers/helper')
 const {
-  setTransporterInfo,
+  setUserInfo,
   getTransporterDetails
-} = require('../controllers/setTransporterInfo')
+} = require('../controllers/setUserInfo')
 const { addVehicle, getVehicleDetails } = require('../controllers/setAssetVehicleDetails')
 const {
   setAssetInfo,
@@ -44,7 +44,7 @@ router.route('/getAllCountries').get(getAllCountries);
 router.route('/getAllState').get(getAllState);
 router.route('/getAllCity').get(getAllCity);
 router.route('/timezones').get(timezones);
-router.route('/setTransporterInfo').post(setTransporterInfo);
+router.route('/setUserInfo').post(setUserInfo);
 router.route('/getTransporterDetails').get(getTransporterDetails);
 router.route('/addDriver').post(upload.fields([{ name: 's_drv_img_path', maxCount: 1 }, { name: 's_drv_lic_img_path', maxCount: 1 }]), addDriver);
 router.route('/getDriverDetails').get(getDriverDetails);
