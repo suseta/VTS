@@ -2,7 +2,7 @@ const express = require('express')
 const router = express.Router()
 
 const multer = require('multer');
-const storage = multer.memoryStorage(); 
+const storage = multer.memoryStorage();
 const upload = multer({ storage });
 
 
@@ -29,13 +29,14 @@ const {
   getAssetTypeDetails,
   getAssetCapacityDetails
 } = require('../controllers/setAssetInfo')
-const { setDeviceDetails,getDeviceDetails } = require('../controllers/setDeviceDetails')
-const { setAssetDeviceMapping,getAssetDeviceMapping } = require('../controllers/assetDeviceMapping')
+const { setSimDetails, getInactiveSimDetails } = require('../controllers/simRegistration')
+const { setDeviceDetails, getDeviceDetails } = require('../controllers/setDeviceDetails')
+const { setAssetDeviceMapping, getAssetDeviceMapping } = require('../controllers/assetDeviceMapping')
 const { setAssetDriverMapping, getAssetDriverMapping } = require('../controllers/assetDriverMapping')
-const {getDeviceTypeDetails} = require('../controllers/deviceType');
-const {setPortDeviceMapping,getPortDeviceMapping,getLatestAccessPortByImei} = require('../controllers/portDeviceMapping');
-const {getServiceDataLog,getParsedData,getLiveVehicleData} = require('../controllers/serviceDataLog');
-const {generateExcel} = require('../controllers/jsonToExcel')
+const { getDeviceTypeDetails } = require('../controllers/deviceType');
+const { setPortDeviceMapping, getPortDeviceMapping, getLatestAccessPortByImei } = require('../controllers/portDeviceMapping');
+const { getServiceDataLog, getParsedData, getLiveVehicleData } = require('../controllers/serviceDataLog');
+const { generateExcel } = require('../controllers/jsonToExcel')
 
 router.route('/').get(index);
 router.route('/setEntityInfo').post(setEntityInfo);
@@ -50,7 +51,7 @@ router.route('/addDriver').post(upload.fields([{ name: 's_drv_img_path', maxCoun
 router.route('/getDriverDetails').get(getDriverDetails);
 router.route('/setAssetInfo').post(setAssetInfo);
 router.route('/getAssetTypeDetails').get(getAssetTypeDetails);
-router.route('/getAssetCapacityDetails').get(getAssetCapacityDetails); 
+router.route('/getAssetCapacityDetails').get(getAssetCapacityDetails);
 router.route('/setDeviceDetails').post(setDeviceDetails);
 router.route('/getDeviceDetails').get(getDeviceDetails);
 router.route('/addVehicle').post(addVehicle)
@@ -68,5 +69,7 @@ router.route('/getParsedData').get(getParsedData);
 router.route('/getLiveVehicleData').get(getLiveVehicleData);
 router.route('/generateExcel').get(generateExcel)
 router.route('/deviceConfig').post(deviceConfig);
+router.route('/setSimDetails').post(setSimDetails);
+router.route('/getInactiveSimDetails').get(getInactiveSimDetails)
 
 module.exports = router
