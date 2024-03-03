@@ -5,8 +5,6 @@ var client
 const setDeviceDetails = async (req, res) => {
   const {
     i_imei_no,
-    s_sim_no,
-    s_sim_op,
     s_dvc_typ,
     dvc_mdl_name,
     dvc_timezone,
@@ -23,8 +21,6 @@ const setDeviceDetails = async (req, res) => {
   try {
     const dataToInsert = {
         i_imei_no,
-        s_sim_no,
-        s_sim_op,
         s_dvc_typ,
         dvc_mdl_name,
         dvc_timezone,
@@ -41,8 +37,6 @@ const setDeviceDetails = async (req, res) => {
       text: `
                 INSERT INTO device_details (
                     i_imei_no,
-                    s_sim_no,
-                    s_sim_op,
                     s_dvc_typ,
                     dvc_mdl_name,
                     dvc_timezone,
@@ -54,13 +48,11 @@ const setDeviceDetails = async (req, res) => {
                     is_ign_wr,
                     is_air_wr    
                 )
-                VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13)
+                VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)
                 RETURNING *;
             `,
       values: [
         dataToInsert.i_imei_no,
-        dataToInsert.s_sim_no,
-        dataToInsert.s_sim_op,
         dataToInsert.s_dvc_typ,
         dataToInsert.dvc_mdl_name,
         dataToInsert.dvc_timezone,
@@ -91,7 +83,7 @@ const setDeviceDetails = async (req, res) => {
 const getDeviceDetails = async(req,res) =>{
     try{
         const query = {
-            text: 'SELECT i_imei_no,s_sim_no,s_sim_op,s_dvc_typ,dvc_mdl_name,dvc_timezone,dvc_mfg_dt,dvc_add_dt,dvc_dlt_dt,s_atd,s_dvc_status,is_ign_wr,is_air_wr FROM device_details;',
+            text: 'SELECT i_imei_no,s_dvc_typ,dvc_mdl_name,dvc_timezone,dvc_mfg_dt,dvc_add_dt,dvc_dlt_dt,s_atd,s_dvc_status,is_ign_wr,is_air_wr FROM device_details;',
         };
             
             client =await getClient(); 
