@@ -7,8 +7,7 @@ const setSimDetails = async (req, res) => {
         s_sim_no,
         s_sim_op,
         sim_add_dt,
-        sim_dlt_dt,
-        s_sim_status
+        sim_dlt_dt
     } = req.body
 
 
@@ -17,8 +16,7 @@ const setSimDetails = async (req, res) => {
             s_sim_no,
             s_sim_op,
             sim_add_dt,
-            sim_dlt_dt,
-            s_sim_status
+            sim_dlt_dt
         }
 
         const query = {
@@ -30,7 +28,7 @@ const setSimDetails = async (req, res) => {
                     sim_dlt_dt,
                     s_sim_status  
                 )
-                VALUES ($1, $2, $3, $4, $5)
+                VALUES ($1, $2, $3, $4)
                 RETURNING *;
             `,
             values: [
@@ -38,7 +36,7 @@ const setSimDetails = async (req, res) => {
                 dataToInsert.s_sim_op,
                 dataToInsert.sim_add_dt,
                 dataToInsert.sim_dlt_dt,
-                dataToInsert.s_sim_status,
+                false,
 
             ]
         }
