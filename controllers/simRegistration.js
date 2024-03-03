@@ -28,7 +28,7 @@ const setSimDetails = async (req, res) => {
                     sim_dlt_dt,
                     s_sim_status  
                 )
-                VALUES ($1, $2, $3, $4)
+                VALUES ($1, $2, $3, $4,$5)
                 RETURNING *;
             `,
             values: [
