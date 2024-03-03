@@ -60,7 +60,7 @@ const setDeviceDetails = async (req, res) => {
         dataToInsert.dvc_add_dt,
         dataToInsert.dvc_dlt_dt,
         dataToInsert.s_atd,
-        dataToInsert.s_dvc_status,
+        dataToInsert.false,
         dataToInsert.is_ign_wr,
         dataToInsert.is_air_wr
       ]
