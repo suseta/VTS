@@ -29,7 +29,7 @@ const {
   getAssetTypeDetails,
   getAssetCapacityDetails
 } = require('../controllers/setAssetInfo')
-const { setSimDetails, getInactiveSimDetails } = require('../controllers/simRegistration')
+const { setSimDetails, getInactiveSimDetails, getActiveSimDetails } = require('../controllers/simRegistration')
 const { setDeviceDetails, getDeviceDetails } = require('../controllers/setDeviceDetails')
 const { setAssetDeviceMapping, getAssetDeviceMapping } = require('../controllers/assetDeviceMapping')
 const { setAssetDriverMapping, getAssetDriverMapping } = require('../controllers/assetDriverMapping')
@@ -70,6 +70,7 @@ router.route('/getLiveVehicleData').get(getLiveVehicleData);
 router.route('/generateExcel').get(generateExcel)
 router.route('/deviceConfig').post(deviceConfig);
 router.route('/setSimDetails').post(setSimDetails);
-router.route('/getInactiveSimDetails').get(getInactiveSimDetails)
+router.route('/getInactiveSimDetails').get(getInactiveSimDetails);
+router.route('/getActiveSimDetails').get(getActiveSimDetails);
 
 module.exports = router

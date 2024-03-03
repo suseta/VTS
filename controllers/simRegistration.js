@@ -68,7 +68,29 @@ const getInactiveSimDetails = async (req, res) => {
         try {
             const result = await client.query(query);
             res.status(200).json({
-                message: 'Device Data Fetched successfully',
+                message: 'Inactive SIM Details Data Fetched successfully',
+                data: result.rows
+            });
+        } finally {
+            await client.end();
+        }
+    } catch (error) {
+        res.status(400).send({ message: error.message });
+    }
+}
+
+const getActiveSimDetails = async (req, res) => {
+    try {
+        const query = {
+            text: 'SELECT s_sim_no,s_sim_op FROM sim_details where s_sim_status = true;',
+        };
+
+        client = await getClient();
+
+        try {
+            const result = await client.query(query);
+            res.status(200).json({
+                message: 'Active SIM Details Data Fetched successfully',
                 data: result.rows
             });
         } finally {
@@ -81,5 +103,6 @@ const getInactiveSimDetails = async (req, res) => {
 
 module.exports = {
     setSimDetails,
-    getInactiveSimDetails
+    getInactiveSimDetails,
+    getActiveSimDetails
 }
