@@ -2,12 +2,11 @@ const { getClient } = require('../db/connect')
 
 var client
 
-const setSimDetails = async (req, res) => {
+const registerSimDetails = async (req, res) => {
     const {
         s_sim_no,
         s_sim_op,
-        sim_add_dt,
-        sim_dlt_dt
+        sim_add_dt
     } = req.body
 
 
@@ -15,8 +14,7 @@ const setSimDetails = async (req, res) => {
         const dataToInsert = {
             s_sim_no,
             s_sim_op,
-            sim_add_dt,
-            sim_dlt_dt
+            sim_add_dt
         }
 
         const query = {
@@ -35,7 +33,7 @@ const setSimDetails = async (req, res) => {
                 dataToInsert.s_sim_no,
                 dataToInsert.s_sim_op,
                 dataToInsert.sim_add_dt,
-                dataToInsert.sim_dlt_dt,
+                null,
                 false,
 
             ]
@@ -54,6 +52,36 @@ const setSimDetails = async (req, res) => {
         res.status(400).send({ message: error.message })
     }
 }
+
+const deActivateSimDetails = async (req, res) => {
+    const { s_sim_no, sim_dlt_dt } = req.body;
+
+    try {
+        const query = {
+            text: `
+                UPDATE sim_details 
+                SET sim_dlt_dt = $1, s_sim_status = $2 
+                WHERE s_sim_no = $3
+                RETURNING *;
+            `,
+            values: [sim_dlt_dt, false, s_sim_no]
+        };
+
+        client = await getClient();
+        try {
+            const result = await client.query(query);
+            res.status(200).json({
+                message: 'SIM Details updated successfully!',
+                data: result.rows[0].s_sim_no
+            });
+        } finally {
+            await client.end();
+        }
+    } catch (error) {
+        res.status(400).send({ message: error.message });
+    }
+};
+
 
 const getInactiveSimDetails = async (req, res) => {
     try {
@@ -100,7 +128,8 @@ const getActiveSimDetails = async (req, res) => {
 }
 
 module.exports = {
-    setSimDetails,
+    registerSimDetails,
+    deActivateSimDetails,
     getInactiveSimDetails,
     getActiveSimDetails
 }

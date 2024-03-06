@@ -29,8 +29,8 @@ const {
   getAssetTypeDetails,
   getAssetCapacityDetails
 } = require('../controllers/setAssetInfo')
-const { setSimDetails, getInactiveSimDetails, getActiveSimDetails } = require('../controllers/simRegistration')
-const { setDeviceDetails, getDeviceDetails } = require('../controllers/setDeviceDetails')
+const { registerSimDetails,deActivateSimDetails, getInactiveSimDetails, getActiveSimDetails } = require('../controllers/simRegistration')
+const { setDeviceDetails,deActivateDeviceDetails, getDeviceDetails, getActiveDeviceDetails } = require('../controllers/setDeviceDetails')
 const { setAssetDeviceMapping, getAssetDeviceMapping } = require('../controllers/assetDeviceMapping')
 const { setAssetDriverMapping, getAssetDriverMapping } = require('../controllers/assetDriverMapping')
 const { getDeviceTypeDetails } = require('../controllers/deviceType');
@@ -69,8 +69,11 @@ router.route('/getParsedData').get(getParsedData);
 router.route('/getLiveVehicleData').get(getLiveVehicleData);
 router.route('/generateExcel').get(generateExcel)
 router.route('/deviceConfig').post(deviceConfig);
-router.route('/setSimDetails').post(setSimDetails);
+router.route('/registerSimDetails').post(registerSimDetails);
+router.route('/deActivateSimDetails').post(deActivateSimDetails);
 router.route('/getInactiveSimDetails').get(getInactiveSimDetails);
 router.route('/getActiveSimDetails').get(getActiveSimDetails);
+router.route('/deActivateDeviceDetails').post(deActivateDeviceDetails);
+router.route('/getActiveDeviceDetails').get(getActiveDeviceDetails);
 
 module.exports = router

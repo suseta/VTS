@@ -1,4 +1,5 @@
-const { getClient } = require('../db/connect')
+const { getClient } = require('../db/connect');
+const {sendEmail} = require('../mail/sendMail');
 
 
 var client
@@ -140,6 +141,9 @@ const setEntityInfo = async (req, res) => {
     client = await getClient()
     try {
         const result = await client.query(query)
+        if(dataToInsert.s_entity_mail != null){
+            sendEmail(dataToInsert.s_entity_name,dataToInsert.s_entity_mail,dataToInsert.s_entity_id,dataToInsert.s_entity_pass)
+        }          
         res.status(200).json({
         message: 'Entity info stored successfully!',
         data: result.rows[0]

@@ -6,6 +6,7 @@ const setUserInfo = async (req, res) => {
     let {
         s_entity_id,
         s_entity_id_and_name,
+        s_user_type,
         s_trans_id,
         s_trans_name,
         trans_tmz,
@@ -35,6 +36,7 @@ const setUserInfo = async (req, res) => {
     const dataToInsert = {
         s_entity_id,
         s_entity_id_and_name,
+        s_user_type,
         s_trans_id,
         s_trans_name,
         trans_tmz,
@@ -63,6 +65,7 @@ const setUserInfo = async (req, res) => {
                 INSERT INTO transporter_details (
                     s_entity_id,
                     s_entity_id_and_name,
+                    s_user_type,
                     s_trans_id,
                     s_trans_name,
                     trans_tmz,
@@ -85,12 +88,13 @@ const setUserInfo = async (req, res) => {
                     s_trans_acc_no,
                     s_trans_ifsc_cd     
                 )
-                VALUES ($1, $2,  $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22, $23)
+                VALUES ($1, $2,  $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22, $23, $24)
                 RETURNING *;
             `,
         values: [
                     dataToInsert.s_entity_id,
                     dataToInsert.s_entity_id_and_name,
+                    dataToInsert.s_user_type,
                     dataToInsert.s_trans_id,
                     dataToInsert.s_trans_name,
                     dataToInsert.trans_tmz,
@@ -117,6 +121,10 @@ const setUserInfo = async (req, res) => {
     client = await getClient()
     try {
         const result = await client.query(query)
+
+        if(dataToInsert.s_trans_mail != null){
+            sendEmail(dataToInsert.s_trans_name,dataToInsert.s_trans_mail,dataToInsert.s_trans_id,dataToInsert.s_trans_pass)
+        }  
 
         const formattedData = result.rows.map((row) => ({
             ...row,
