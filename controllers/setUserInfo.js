@@ -1,5 +1,8 @@
 const { getClient } = require('../db/connect')
 
+const {sendEmail} = require('../mail/sendMail');
+
+
 var client
 
 const setUserInfo = async (req, res) => {
